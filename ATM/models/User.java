@@ -1,3 +1,4 @@
+package models;
 import java.util.*;
 public class User{
     private int acc_no;

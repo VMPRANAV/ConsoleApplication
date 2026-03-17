@@ -1,4 +1,9 @@
+package services;
 import java.util.ArrayList;
+
+import models.ATM;
+import models.Transaction;
+import models.User;
 
 public class TransactionService {
     private ArrayList<Transaction> transactionHistory;

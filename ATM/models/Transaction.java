@@ -1,3 +1,4 @@
+package models;
 public class Transaction{
     private int t_id;
 private int user_id;

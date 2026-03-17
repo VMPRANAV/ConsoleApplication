@@ -1,5 +1,8 @@
+package services;
 
     import java.util.ArrayList;
+
+import models.User;
 
 public class BankService {
     private ArrayList<User> totalUsers;
