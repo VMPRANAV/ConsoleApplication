@@ -3,13 +3,17 @@ import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) {
-        ATM atm= new ATM(1000.00,new ArrayList<>(),new ArrayList<>());
+      ArrayList<User> usersList = new ArrayList<>();
+        ArrayList<Transaction> transactionHistory = new ArrayList<>();
+        BankService bankService = new BankService(usersList);
+        TransactionService transactionService = new TransactionService(transactionHistory, bankService);
+        ATM atm= new ATM(1000.00);
         User user1= new User(123456789, "Pranav", 123, 1000.00);
  User user2= new User(123456787, "Navin", 456);
   User user3= new User(123456786, "Velu", 457, 200);
-  atm.getTotalUsers().add(user1);
-   atm.getTotalUsers().add(user2);
-    atm.getTotalUsers().add(user3);
+bankService.getTotalUsers().add(user1);
+bankService.getTotalUsers().add(user2);
+   bankService.getTotalUsers().add(user3);
     Scanner sc= new Scanner(System.in);
      User user=null;
    boolean st=false;
@@ -17,11 +21,11 @@ public class Main {
      int inpAccNo=sc.nextInt();
     int inpPin=sc.nextInt();
     if(inpAccNo==99999 && inpPin==555){
-        atm.adminDashboard();
+       transactionService.adminDashboard(atm);
         return;
     }
     else
-    user= atm.validateUser(inpAccNo,inpPin);
+    user= bankService.validateUser(inpAccNo,inpPin);
     if(user!=null){
       st=true;
         System.out.println("Login Sucessfull");
@@ -47,15 +51,15 @@ public class Main {
                         case 1:
                             System.out.println("Enter the amount to be withdraw");
                             double amt= sc.nextDouble();
-                            atm.withdraw(user,amt);
+                            transactionService.withdraw(user,amt,atm);
                             break;
                             case 2:
                                   System.out.println("Enter the amount to be deposit");
                             double amt1= sc.nextDouble();
-                                atm.deposit(user,amt1);
+                                transactionService.deposit(user,amt1,atm);
                                 break;
                                 case 3: 
-                                 atm.checkBalance(user);
+                                 transactionService.checkBalance(user);
                                  break;
                                 case 4: 
                               System.out.println("Enter the Account Details to Transfer: ");
@@ -63,17 +67,17 @@ public class Main {
                               System.out.println("Enter the amount to Transfer");
                               double amt2= sc.nextDouble();
 
-                               atm.fundtransfer(user,inp_accno,amt2);
+                               transactionService.fundtransfer(user,inp_accno,amt2);
                                 break;
                                 case 5: 
                                   System.out.println("Enter the Current Pin: ");
                                   int currPin=sc.nextInt();
                                 System.out.println("Enter the New Pin: ");
                                 int newPin=sc.nextInt();
-                                atm.pinChange(user,currPin,newPin); 
+                                transactionService.pinChange(user,currPin,newPin); 
                                 break;
                                 case 6:
-                                atm.miniStatement(user);
+                              transactionService.miniStatement(user);
                                 break;
 
                     }
@@ -84,6 +88,7 @@ public class Main {
                     else st=false;
 
     }
-
+System.out.println("Thank you for using the ATM!");
+        sc.close();
     }
 }
